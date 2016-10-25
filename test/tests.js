@@ -2,8 +2,6 @@
 
 describe('tests', function () {
 
-  it('should be ok', function () {
+  require('./impp-core/tests');
 
-  });
-  
 });
