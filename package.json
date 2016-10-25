@@ -1,0 +1,21 @@
+{
+  "name": "ympp-js",
+  "version": "0.1.0",
+  "description": "The YMPP protocol.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./test/tests.js",
+    "test-cover": "istanbul cover _mocha -- -R spec -u exports ./test/tests.js"
+  },
+  "author": "johnsmith1st <johnsmith1st@live.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnSmithDr/ympp-js.git"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "istanbul": "0.4.5",
+    "mocha": "3.1.2"
+  }
+}
