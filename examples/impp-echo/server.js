@@ -16,13 +16,12 @@ function createServer(port, callback) {
     MessageProcessor.create((message, fromClient) => {
       fromClient.send(message, (err) => {
         if (err) console.error(err);
-        console.log('message send:', message.trim());
+        console.log('client (%s) send:', fromClient.id, message.trim());
       });
     }),
     ImppProtocol.create({
       handshake: function (conn, callback) {
-        let addr = conn.address();
-        let id = `${addr.address}:${addr.port}`;
+        let id = `${conn.remoteAddress}:${conn.remotePort}`;
         callback(true, id, conn);
       },
       parseMessage: function (data) {
@@ -45,8 +44,19 @@ module.exports = createServer;
 
 if (!module.parent) {
   let port = 6000;
-  createServer(port, (err) => {
+  let server = createServer(port, (err) => {
     if (err) return console.error(err);
     console.log('echo server start at port:', port);
   });
+  server.presenceManager
+    .on('present', function (client) {
+      console.log('client (%s) present', client.id);
+      client.on('message', message => {
+        console.log('client (%s) received:', client.id, message.trim());
+      });
+    })
+    .on('absent', function (client) {
+      console.log('client (%s) absent', client.id);
+      client.removeAllListeners('message');
+    });
 }
