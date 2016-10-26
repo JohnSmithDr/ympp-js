@@ -13,10 +13,10 @@ function createServer(port) {
 
   let imppEchoServer = new ImppServer(
     new PresenceManager(),
-    new MessageProcessor((message, fromClient) => {
-      fromClient.send(message, (err, r) => {
+    MessageProcessor.create((message, fromClient) => {
+      fromClient.send(message, (err) => {
         if (err) console.error(err);
-        console.log('message send:', r);
+        console.log('message send:', message);
       });
     }),
     ImppProtocol.create({
