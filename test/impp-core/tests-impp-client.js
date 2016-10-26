@@ -11,7 +11,7 @@ describe('impp-client', function () {
   let testProtocol = new ImppProtocol();
   let testClient = new ImppClient(testConnection, testProtocol);
 
-  describe('receive', function () {
+  describe('#receive()', function () {
 
     it('should be ok', function () {
 
@@ -30,7 +30,7 @@ describe('impp-client', function () {
 
   });
 
-  describe('send', function () {
+  describe('#send()', function () {
 
     it('should be ok', function () {
 
@@ -47,6 +47,15 @@ describe('impp-client', function () {
 
       expect(sent).to.deep.equal(messages);
 
+    });
+
+  });
+
+  describe('#close', function () {
+
+    it('should be ok', function (done) {
+      testClient.on('close', done);
+      testConnection.emit('close');
     });
 
   });
