@@ -2,6 +2,6 @@
 
 describe('impp-core', function () {
 
-  require('./tests-client-collection');
+  require('./tests-presence-manager');
 
 });
