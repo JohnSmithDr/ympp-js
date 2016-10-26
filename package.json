@@ -14,9 +14,12 @@
     "url": "git+https://github.com/JohnSmithDr/ympp-js.git"
   },
   "devDependencies": {
+    "async": "2.1.2",
     "chai": "3.5.0",
+    "chance": "1.0.4",
     "coveralls": "2.11.14",
     "istanbul": "0.4.5",
+    "lodash": "4.16.4",
     "mocha": "3.1.2"
   }
 }

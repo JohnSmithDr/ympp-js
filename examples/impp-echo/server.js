@@ -7,7 +7,7 @@ const ImppProtocol = require('../../lib/impp-core').ImppProtocol;
 const PresenceManager = require('../../lib/impp-core').PresenceManager;
 const MessageProcessor = require('../../lib/impp-core').MessageProcessor;
 
-function createServer(port) {
+function createServer(port, callback) {
 
   let socketServer = net.createServer();
 
@@ -16,12 +16,14 @@ function createServer(port) {
     MessageProcessor.create((message, fromClient) => {
       fromClient.send(message, (err) => {
         if (err) console.error(err);
-        console.log('message send:', message);
+        console.log('message send:', message.trim());
       });
     }),
     ImppProtocol.create({
       handshake: function (conn, callback) {
-        callback(true, conn);
+        let addr = conn.address();
+        let id = `${addr.address}:${addr.port}`;
+        callback(true, id, conn);
       },
       parseMessage: function (data) {
         return data.toString('utf8');
@@ -33,11 +35,18 @@ function createServer(port) {
     socketServer
   );
 
-  socketServer.listen(port, (err) => {
-    if (err) return console.error(err);
-    console.log('echo server start at port:', port);
-  });
+  socketServer.listen(port, callback);
+
+  return imppEchoServer;
 
 }
 
-createServer(6000);
+module.exports = createServer;
+
+if (!module.parent) {
+  let port = 6000;
+  createServer(port, (err) => {
+    if (err) return console.error(err);
+    console.log('echo server start at port:', port);
+  });
+}
