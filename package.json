@@ -4,6 +4,7 @@
   "description": "The YMPP protocol.",
   "main": "index.js",
   "scripts": {
+    "gen-protocol": "pbjs ./lib/protocols/ympp.proto -t commonjs > ./lib/protocols/ympp.js",
     "test": "mocha ./test/tests.js",
     "test-cover": "istanbul cover _mocha -- -R spec -u exports ./test/tests.js"
   },
@@ -21,5 +22,8 @@
     "istanbul": "0.4.5",
     "lodash": "4.16.4",
     "mocha": "3.1.2"
+  },
+  "dependencies": {
+    "protobufjs": "5.0.1"
   }
 }

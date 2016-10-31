@@ -1,0 +1,27 @@
+package ympp;
+
+message YmppMessage
+{
+    message Header
+    {
+        optional string        id = 1;
+        repeated string        from = 2;
+        repeated string        to = 3;
+        optional string        channel = 4;
+        optional uint64        time = 5;
+        map<string, string>    extra = 6;
+    }
+
+    message Content
+    {
+        optional string    encoding = 1;
+        optional string    charset = 2;
+        optional string    type = 3;
+        optional bytes     data = 4;
+    }
+
+    required int32      version = 1 [default = 1];
+    required string     intent = 2;
+    optional Header     header = 3;
+    optional Content    content = 4;
+}
