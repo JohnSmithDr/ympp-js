@@ -2,6 +2,7 @@
 
 const expect = require('chai').expect;
 const ympp = require('../../lib/');
+const logger = require('../logger');
 
 describe('ympp-message', function () {
 
@@ -33,9 +34,9 @@ describe('ympp-message', function () {
     let encoded = ympp.message.encode(msg);
     let decoded = ympp.message.decode(encoded);
 
-    console.log(encoded.length);
-    console.log(encoded);
-    console.log(decoded);
+    logger.debug(encoded.length);
+    logger.debug(encoded);
+    logger.debug(decoded);
 
     expect(decoded.intent).to.equal('greeting');
     expect(decoded.header.id).to.equal('1');
