@@ -1,10 +1,16 @@
 'use strict';
 
-const ympp = require('../lib');
+const ympp = require('../../lib');
 
 function createServer() {
 
-  let server = ympp.server();
+  let server = ympp.server({
+    handshake: function (conn, callback) {
+      let headers = (conn.upgradeReq && conn.upgradeReq.headers) || {};
+      let id = headers['ympp-client-id'];
+      return callback(id ? true : false, id);
+    }
+  });
 
   return server
     .on('present', (cli) => {
@@ -25,7 +31,7 @@ function createServer() {
     });
 }
 
-module.exports.createServer = createServer;
+module.exports.create = createServer;
 
 if (!module.parent) {
 
