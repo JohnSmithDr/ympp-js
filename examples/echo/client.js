@@ -30,12 +30,14 @@ if (!module.parent) {
 
     cli
       .on('message', (msg) => {
-        console.log('received:', msg.content.data.toBuffer().toString());
+        console.log('>>', msg.content.data.toBuffer().toString());
       })
       .once('close', () => {
         console.log('connection closed');
         process.exit(0);
       });
+
+    cli.receive();
 
     rl.on('line', (line) => {
 
@@ -48,7 +50,6 @@ if (!module.parent) {
 
       cli.send(msg, (err) => {
         if (err) console.error(err);
-        else console.log('sent:', msg.content.data.toBuffer().toString());
       });
 
     });

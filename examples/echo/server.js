@@ -20,21 +20,20 @@ function createServer() {
       console.log('client absent:', cli.id);
     })
     .use((msg, cli, srv, next) => {
-      console.log('client message:', msg.content.data.toBuffer().toString());
+      console.log('message from client %s:', cli.id, msg.content.data.toBuffer().toString());
       next();
     })
     .use('echo', function (msg, cli, srv, next) {
-      srv.send(msg, (err) => {
+      cli.send(msg, (err) => {
         if (err) console.error(err);
         next();
-      })
+      });
     });
 }
 
 module.exports.create = createServer;
 
 if (!module.parent) {
-
   createServer()
     .listen(3000, (err) => {
       if (err) {
@@ -43,5 +42,4 @@ if (!module.parent) {
       }
       console.log('server start at port 3000');
     });
-
 }
