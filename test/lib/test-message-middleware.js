@@ -73,7 +73,35 @@ describe('message-middleware', function () {
 
   });
 
-  it('should emit errors', function (done) {
+  it('should catch errors from function', function (done) {
+
+    let mw = middleware(
+      function (x, y, z, next) {
+        next();
+      },
+      function (x, y, z, next) {
+        next();
+      },
+      function (x, y, z, next) {
+        throw Error('oops');
+      },
+      function () {
+        throw Error('wont go here');
+      }
+    );
+
+    expect(mw).to.be.a('function');
+    mw(0, 0, 0, (err) => {
+      if (err) {
+        expect(err.message).to.equal('oops');
+        return done();
+      }
+      done(Error('should not be here'));
+    });
+
+  });
+
+  it('should catch errors from next', function (done) {
 
     let mw = middleware(
       function (x, y, z, next) {
@@ -84,6 +112,9 @@ describe('message-middleware', function () {
       },
       function (x, y, z, next) {
         next(Error('oops'));
+      },
+      function (x, y, z, next) {
+        next(Error('wont go here'));
       }
     );
 
