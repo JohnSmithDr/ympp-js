@@ -5,8 +5,8 @@ message YmppMessage
     message Header
     {
         optional string        id = 1;
-        repeated string        from = 2;
-        repeated string        to = 3;
+        repeated string        to = 2;
+        optional string        from = 3;
         optional string        channel = 4;
         optional uint64        time = 5;
         map<string, string>    extra = 6;
