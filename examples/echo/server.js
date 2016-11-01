@@ -2,7 +2,10 @@
 
 const ympp = require('../../lib');
 
-function createServer() {
+function createServer(opts) {
+
+  opts = opts || {};
+  let logger = opts.logger || console;
 
   let server = ympp.server({
     handshake: function (conn, callback) {
@@ -14,18 +17,18 @@ function createServer() {
 
   return server
     .on('present', (cli) => {
-      console.log('client present:', cli.id);
+      logger.log('client present:', cli.id);
     })
     .on('absent', (cli) => {
-      console.log('client absent:', cli.id);
+      logger.log('client absent:', cli.id);
     })
     .use((msg, cli, srv, next) => {
-      console.log('message from client %s:', cli.id, msg.content.data.toBuffer().toString());
+      logger.log('message from client %s:', cli.id, msg.content.data.toBuffer().toString());
       next();
     })
     .use('echo', function (msg, cli, srv, next) {
       cli.send(msg, (err) => {
-        if (err) console.error(err);
+        if (err) logger.error(err);
         next();
       });
     });

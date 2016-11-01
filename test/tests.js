@@ -8,10 +8,11 @@ describe('tests', function () {
     require('./lib/test-presence-manager');
     require('./lib/test-ympp-message');
     require('./lib/test-ympp-client');
+    require('./lib/test-ympp-server');
   });
 
   describe('examples', function () {
-
+    
   });
 
 });

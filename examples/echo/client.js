@@ -3,15 +3,6 @@
 const readline = require('readline');
 const ympp = require('../../lib');
 
-function connect(id, token, callback) {
-  ympp.client.connect(
-    { id, token, url: 'ws://localhost:3000' },
-    callback
-  );
-}
-
-module.exports.connect = connect;
-
 if (!module.parent) {
 
   const rl = readline.createInterface({
@@ -19,7 +10,13 @@ if (!module.parent) {
     output: process.stdout
   });
 
-  connect('anonymous', 'none', (err, cli) => {
+  let args = {
+    id: 'anonymous',
+    token: 'none',
+    url: 'ws://localhost:3000'
+  };
+
+  ympp.client.connect(args, (err, cli) => {
 
     if (err) {
       console.error(err);
