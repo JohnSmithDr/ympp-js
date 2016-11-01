@@ -80,6 +80,11 @@ describe('message-processor', function () {
 
     });
 
+    it('should throw error for no arguments', function () {
+      let mp = new MessageProcessor();
+      expect(() => mp.use()).to.throw(/expects one or more arguments/i);
+    });
+
   });
 
   describe('#process()', function () {
@@ -139,8 +144,16 @@ describe('message-processor', function () {
         });
       });
 
-      return Promise.all([ t1, t2, t3 ]);
+      let t4 = new Promise((res) => {
+        let m = { intent: 'else', value: -1 };
+        mp.once('error', (err) => {
+          expect(err.message).to.equal('oops');
+          return res('pass else');
+        });
+        mp.process(m, 0, 0);
+      });
 
+      return Promise.all([ t1, t2, t3, t4 ]);
 
     });
 
